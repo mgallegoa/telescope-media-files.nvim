@@ -10,14 +10,14 @@ mkdir -p $TMP_FOLDER
 
 function render_at_size {
   if ! command -v chafa &> /dev/null; then
-      echo "chafa could not be found in your path,\nplease install it to display media content"
+      echo "chafa could not be found in your PATH.\n\nPlease install it to display media content."
       exit
   fi
 
   max_width="${1}"
   max_height="${2}"
   img_path="${3}"
-  chafa --center=on --clear "${img_path}"
+  chafa --center=on --clear --colors=full -w 9 "${img_path}"
   if command -v file > /dev/null 2>&1; then
     file "${img_path}"
   fi
@@ -26,7 +26,7 @@ function render_at_size {
 
 function svg {
   if ! command -v rsvg-convert &> /dev/null; then
-    echo "rsvg-convert could not be found in your path,\nplease install it to display media content"
+    echo "rsvg-convert could not be found in your PATH.\n\nPlease install it to display media content."
     exit
   fi
   readonly converted_img_path="${TMP_FOLDER}/rsvg-convert.png"
@@ -37,7 +37,7 @@ function svg {
 }
 function videopreview {
   if ! command -v ffmpegthumbnailer &> /dev/null; then
-    echo "ffmpegthumbnailer could not be found in your path,\nplease install it to display video previews"
+    echo "ffmpegthumbnailer could not be found in your PATH.\n\nPlease install it to display video previews."
     exit
   fi
   readonly converted_img_path="${TMP_FOLDER}/ffmpegthumbnailer-convert.png"
@@ -49,7 +49,7 @@ function videopreview {
 }
 function pdfpreview {
   if ! command -v pdftoppm &> /dev/null; then
-      printf "pdftoppm could not be found in your path,\nplease install it to display pdf previews"
+      printf "pdftoppm could not be found in your PATH.\n\nPlease install it to display pdf previews."
       exit
   fi
   readonly converted_pdf_img_path="${TMP_FOLDER}/pdftoppm-convert"
@@ -62,9 +62,25 @@ function pdfpreview {
   render_at_size "${1}" "${2}" "${converted_pdf_img_path}.png"
 }
 
+function epubpreview {
+  if ! command -v epub-thumbnailer &> /dev/null; then
+      printf "epub-thumbnailer could not be found in your PATH.\n\nPlease install it to display epub previews."
+     exit
+  fi
+  readonly converted_epub_img_path="${TMP_FOLDER}/epub-thumbnailer-convert.png"
+  img_path="${3}"
+  error_message=$(epub-thumbnailer "${img_path}" "${converted_epub_img_path}" 450 2>&1)
+  if [ $? -ne 0 ]; then
+    printf "Cann't convert the file, check if the file have a password, error: %s" "$error_message"
+    exit
+  fi
+  render_at_size "${1}" "${2}" "${converted_epub_img_path}"
+}
+
+
 function parse_options {
     extension="${1##*.}"
-    echo -e "Loading preview..\nFile: $1"
+    echo -e "Loading preview..\nFile: $1 \n"
     case $extension in
     jpg | png | jpeg | webp)
         render_at_size $4 $5 "$1"
@@ -82,8 +98,12 @@ function parse_options {
         videopreview $4 $5 "$1"
     ;;
 
-    pdf | epub)
+    pdf)
         pdfpreview $4 $5 "$1"
+    ;;
+
+    epub)
+        epubpreview $4 $5 "$1"
     ;;
 
     *)
