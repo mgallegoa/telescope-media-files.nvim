@@ -17,7 +17,6 @@ function render_at_size {
   max_width="${1}"
   max_height="${2}"
   img_path="${3}"
-    #chafa --center=on --clear --size "${max_width}x${max_height}" "${img_path}"
   chafa --center=on --clear "${img_path}"
   if command -v file > /dev/null 2>&1; then
     file "${img_path}"
@@ -37,42 +36,50 @@ function svg {
   render_at_size "${1}" "${2}" "${converted_img_path}"
 }
 
+function pdfpreview {
+  if ! command -v pdftoppm &> /dev/null; then
+      printf "pdftoppm could not be found in your path,\nplease install it to display pdf previews"
+      exit
+  fi
+  readonly converted_pdf_img_path="${TMP_FOLDER}/pdftoppm-convert"
+  img_path="${3}"
+  error_message=$(pdftoppm -png -singlefile "${img_path}" "${converted_pdf_img_path}" 2>&1)
+  if [ $? -ne 0 ]; then
+    printf "Cann't convert the file, check if the file have a password, error: %s" "$error_message"
+    exit
+  fi
+  render_at_size "${1}" "${2}" "${converted_pdf_img_path}.png"
+}
+
 function draw_preview {
     if [[ "$1" == "imagepreview" ]]; then
       render_at_size "${5}" "${6}" "${2}" "${7}"
 
     elif [[ "$1" == "gifpreview" ]]; then
-         render_at_size "${5}" "${6}" "${2}" "${7}"
+      render_at_size "${5}" "${6}" "${2}" "${7}"
 
     elif [[ "$1" == "videopreview" ]]; then
-      if ! command -v viu &> /dev/null; then
+      if ! command -v ffmpegthumbnailer &> /dev/null; then
         echo "ffmpegthumbnailer could not be found in your path,\nplease install it to display video previews"
         exit
       fi
       path="${2##*/}"
-      echo -e "Loading preview..\nFile: $path"
       ffmpegthumbnailer -i "$2" -o "${TMP_FOLDER}/${path}.png" -s 0 -q 10
       clear
       render_at_size "${5}" "${6}" "${TMP_FOLDER}/${path}.png" "${7}"
-
-    elif [[ "$1" == "pdfpreview" ]]; then
-      path="${2##*/}"
-        echo -e "Loading preview..\nFile: $path"
-        [[ ! -f "${TMP_FOLDER}/${path}.png" ]] && pdftoppm -png -singlefile "$2" "${TMP_FOLDER}/${path}.png"
-        clear
-        render_at_size "${5}" "${6}" "${TMP_FOLDER}/${path}.png" "${7}"
     fi
 }
 
 function parse_options {
     extension="${1##*.}"
+    echo -e "Loading preview..\nFile: $1"
     case $extension in
     jpg | png | jpeg | webp)
         draw_preview  imagepreview "$1" $2 $3 $4 $5 $6
     ;;
 
     svg)
-        svg $4 $5 $1
+        svg $4 $5 "$1"
     ;;
 
     gif)
@@ -84,7 +91,7 @@ function parse_options {
     ;;
 
     pdf | epub)
-        draw_preview  pdfpreview "$1" $2 $3 $4 $5 $6
+        pdfpreview $4 $5 "$1"
     ;;
 
     *)
