@@ -35,7 +35,18 @@ function svg {
   
   render_at_size "${1}" "${2}" "${converted_img_path}"
 }
+function videopreview {
+  if ! command -v ffmpegthumbnailer &> /dev/null; then
+    echo "ffmpegthumbnailer could not be found in your path,\nplease install it to display video previews"
+    exit
+  fi
+  readonly converted_img_path="${TMP_FOLDER}/ffmpegthumbnailer-convert.png"
+  img_path="${3}"
+  ffmpegthumbnailer -i "$img_path" -o "${converted_img_path}" -s 0 -q 10
 
+  render_at_size "${1}" "${2}" "${converted_img_path}"
+
+}
 function pdfpreview {
   if ! command -v pdftoppm &> /dev/null; then
       printf "pdftoppm could not be found in your path,\nplease install it to display pdf previews"
@@ -51,31 +62,12 @@ function pdfpreview {
   render_at_size "${1}" "${2}" "${converted_pdf_img_path}.png"
 }
 
-function draw_preview {
-    if [[ "$1" == "imagepreview" ]]; then
-      render_at_size "${5}" "${6}" "${2}" "${7}"
-
-    elif [[ "$1" == "gifpreview" ]]; then
-      render_at_size "${5}" "${6}" "${2}" "${7}"
-
-    elif [[ "$1" == "videopreview" ]]; then
-      if ! command -v ffmpegthumbnailer &> /dev/null; then
-        echo "ffmpegthumbnailer could not be found in your path,\nplease install it to display video previews"
-        exit
-      fi
-      path="${2##*/}"
-      ffmpegthumbnailer -i "$2" -o "${TMP_FOLDER}/${path}.png" -s 0 -q 10
-      clear
-      render_at_size "${5}" "${6}" "${TMP_FOLDER}/${path}.png" "${7}"
-    fi
-}
-
 function parse_options {
     extension="${1##*.}"
     echo -e "Loading preview..\nFile: $1"
     case $extension in
     jpg | png | jpeg | webp)
-        draw_preview  imagepreview "$1" $2 $3 $4 $5 $6
+        render_at_size $4 $5 "$1"
     ;;
 
     svg)
@@ -83,11 +75,11 @@ function parse_options {
     ;;
 
     gif)
-        draw_preview  gifpreview "$1" $2 $3 $4 $5 $6
+        render_at_size $4 $5 "$1"
     ;;
 
     avi | mp4 | wmv | dat | 3gp | ogv | mkv | mpg | mpeg | vob |  m2v | mov | webm | mts | m4v | rm  | qt | divx)
-        draw_preview  videopreview "$1" $2 $3 $4 $5 $6
+        videopreview $4 $5 "$1"
     ;;
 
     pdf | epub)
