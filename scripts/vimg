@@ -5,33 +5,44 @@ SCRIPT=`realpath $0`
 readonly BASH_BINARY="$(which bash)"
 declare -x PREVIEW_ID="preview"
 
-declare -x TMP_FOLDER="/tmp/vimg"
+declare -x TMP_FOLDER="/tmp/nvim-telescope-media"
 mkdir -p $TMP_FOLDER
 
 function render_at_size {
+  if ! command -v chafa &> /dev/null; then
+      echo "chafa could not be found in your path,\nplease install it to display media content"
+      exit
+  fi
+
   max_width="${1}"
   max_height="${2}"
   img_path="${3}"
+    #chafa --center=on --clear --size "${max_width}x${max_height}" "${img_path}"
+  chafa --center=on --clear "${img_path}"
+  if command -v file > /dev/null 2>&1; then
+    file "${img_path}"
+  fi
 
-  # animation is turned off as it does werid things with the terminal output
-  chafa --animate=off --center=on --clear --size "${max_width}x${max_height}" "${img_path}"
+}
+
+function svg {
+  if ! command -v rsvg-convert &> /dev/null; then
+    echo "rsvg-convert could not be found in your path,\nplease install it to display media content"
+    exit
+  fi
+  readonly converted_img_path="${TMP_FOLDER}/rsvg-convert.png"
+  img_path="${3}"
+  rsvg-convert "${img_path}" -o "${converted_img_path}"
+  
+  render_at_size "${1}" "${2}" "${converted_img_path}"
 }
 
 function draw_preview {
-    if ! command -v chafa &> /dev/null; then
-      echo "chafa could not be found in your path,\nplease install it to display media content"
-      exit
-    fi
-
     if [[ "$1" == "imagepreview" ]]; then
       render_at_size "${5}" "${6}" "${2}" "${7}"
-      # viu -b -w ${5} -h ${6} "${2}"
 
     elif [[ "$1" == "gifpreview" ]]; then
-      # This is static for now, feel free to re-introduce FIFO to make
-      # animations work again, plaing viu gifs (removing the -s flag) causes
-      # the preview window to scroll weirdly
-      render_at_size "${5}" "${6}" "${2}" "${7}"
+         render_at_size "${5}" "${6}" "${2}" "${7}"
 
     elif [[ "$1" == "videopreview" ]]; then
       if ! command -v viu &> /dev/null; then
@@ -56,8 +67,12 @@ function draw_preview {
 function parse_options {
     extension="${1##*.}"
     case $extension in
-    jpg | png | jpeg | webp | svg)
+    jpg | png | jpeg | webp)
         draw_preview  imagepreview "$1" $2 $3 $4 $5 $6
+    ;;
+
+    svg)
+        svg $4 $5 $1
     ;;
 
     gif)
