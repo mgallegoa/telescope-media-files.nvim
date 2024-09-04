@@ -24,6 +24,7 @@ local image_stretch = 250
 M.base_directory=""
 M.media_preview = defaulter(function(opts)
   return previewers.new_termopen_previewer {
+    title="Thumbnails",
     get_command = opts.get_command or function(entry)
       local tmp_table = vim.split(entry.value,"\t");
       local preview = opts.get_preview_window()
