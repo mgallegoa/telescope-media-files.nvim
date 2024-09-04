@@ -19,7 +19,7 @@ function render_at_size {
   img_path="${3}"
   chafa --center=on --clear --colors=full -w 9 "${img_path}"
   if command -v file > /dev/null 2>&1; then
-    file "${img_path}"
+    file "${4}"
   fi
 
 }
@@ -33,7 +33,7 @@ function svg {
   img_path="${3}"
   rsvg-convert "${img_path}" -o "${converted_img_path}"
   
-  render_at_size "${1}" "${2}" "${converted_img_path}"
+  render_at_size "${1}" "${2}" "${converted_img_path}" "${img_path}"
 }
 function videopreview {
   if ! command -v ffmpegthumbnailer &> /dev/null; then
@@ -44,7 +44,7 @@ function videopreview {
   img_path="${3}"
   ffmpegthumbnailer -i "$img_path" -o "${converted_img_path}" -s 0 -q 10
 
-  render_at_size "${1}" "${2}" "${converted_img_path}"
+  render_at_size "${1}" "${2}" "${converted_img_path}" "${img_path}"
 
 }
 function pdfpreview {
@@ -59,7 +59,7 @@ function pdfpreview {
     printf "Cann't convert the file, check if the file have a password, error: %s" "$error_message"
     exit
   fi
-  render_at_size "${1}" "${2}" "${converted_pdf_img_path}.png"
+  render_at_size "${1}" "${2}" "${converted_pdf_img_path}.png" "${img_path}"
 }
 
 function epubpreview {
@@ -74,7 +74,7 @@ function epubpreview {
     printf "Cann't convert the file, check if the file have a password, error: %s" "$error_message"
     exit
   fi
-  render_at_size "${1}" "${2}" "${converted_epub_img_path}"
+  render_at_size "${1}" "${2}" "${converted_epub_img_path}" "${img_path}"
 }
 
 function fontimagepreview {
@@ -89,7 +89,7 @@ function fontimagepreview {
     printf "Cann't convert the file, check if the file have a password, error: %s" "$error_message"
     exit
   fi
-  render_at_size "${1}" "${2}" "${converted_font_img_path}"
+  render_at_size "${1}" "${2}" "${converted_font_img_path}" "${img_path}"
 }
 
 function parse_options {
@@ -97,7 +97,7 @@ function parse_options {
     echo -e "Loading preview...\nFile: $1 \n"
     case $extension in
     jpg | png | jpeg | webp)
-        render_at_size $4 $5 "$1"
+        render_at_size $4 $5 "$1" "$1"
     ;;
 
     svg)
@@ -105,7 +105,7 @@ function parse_options {
     ;;
 
     gif)
-        render_at_size $4 $5 "$1"
+        render_at_size $4 $5 "$1" "$1"
     ;;
 
     avi | mp4 | wmv | dat | 3gp | ogv | mkv | mpg | mpeg | vob |  m2v | mov | webm | mts | m4v | rm  | qt | divx)
