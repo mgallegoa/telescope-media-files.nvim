@@ -20,7 +20,7 @@ local M = {}
 local filetypes = {}
 local find_cmd = ""
 local image_stretch = 250
-local command_open_imagen = "eog"
+local command_open_image = "eog"
 
 M.base_directory = ""
 M.media_preview = defaulter(function(opts)
@@ -97,7 +97,7 @@ function M.media_files(opts)
 
     map({'i', 'n'}, '<C-i>', function()
       selection = action_state.get_selected_entry()
-      local command_open = command_open_imagen .. ' "' .. selection.value .. '"'
+      local command_open = command_open_image .. ' "' .. selection.value .. '"'
       local success = os.execute(command_open)
       if not success or success > 0 then
         vim.notify("Error excecuting the command: " .. command_open, vim.log.levels.ERROR)
@@ -142,7 +142,7 @@ return require('telescope').register_extension {
     filetypes = ext_config.filetypes or { "jpg", "png", "jpeg", "webm", "gif", }
     find_cmd = ext_config.find_cmd or "fd"
     image_stretch = ext_config.image_stretch or 250
-    command_open_imagen = ext_config.command_open_imagen or command_open_imagen
+    command_open_image = ext_config.command_open_image or command_open_image
   end,
   exports = {
     media_files = M.media_files
