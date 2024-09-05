@@ -14,8 +14,8 @@ function render_at_size {
       exit
   fi
 
-  max_width="${1}"
-  max_height="${2}"
+  max_width=${1}
+  max_height=${2}
   img_path="${3}"
   chafa --center=on --clear --colors=full -w 9 "${img_path}"
   if command -v file > /dev/null 2>&1; then
