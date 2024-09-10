@@ -132,6 +132,7 @@ return require('telescope').register_extension {
     M.config_media.tmux_time_wait = ext_config.tmux_time_wait or 1.5
     M.config_media.tmux_index_pane_thumbnail = ext_config.tmux_index_pane_thumbnail or -1
     M.config_media.tmux_command_show_thumbnail = ext_config.tmux_command_show_thumbnail or "kitten icat"
+    M.config_media.tmux_resize_open_pane = ext_config.tmux_resize_open_pane or 0
   end,
   exports = {
     media_files = M.media_files,

@@ -24,7 +24,10 @@ function tmux_kitty_preview {
   num_panes=$(tmux list-panes | wc -l)
   if [[ "$num_panes" -eq 1 ]] || [[ "$2" -eq 1 ]]; then 
     tmux split-window -h
-  fi
+    if [ "$6" -ge 1 ]; then
+      tmux resize-pane -x "$6"
+    fi
+fi
 
   if [ "$pane_index_configured" -lt 0 ]; then
     pane_index_configured=$(("${current_pane_index}" + 1))

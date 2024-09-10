@@ -10,6 +10,7 @@ function M.preview_custom_console(selected_value, config_media)
     config_media.tmux_time_wait,              -- Time in seconds, to wait to load the image.
     config_media.tmux_index_pane_thumbnail,   -- Index of the Tmux pane to show the image, Tmux pane start from 0. Let -1 to desable.
     config_media.tmux_command_show_thumbnail, -- Command to execute to open the Thumbnail.
+    config_media.tmux_resize_open_pane,       -- Number of columns to resize the opened pane.
   }
 
   local command = { path_nvim_media .. '/scripts/tmux_kitty_preview.sh', table.unpack(params) }
