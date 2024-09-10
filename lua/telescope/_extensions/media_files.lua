@@ -1,8 +1,9 @@
 local has_telescope, telescope = pcall(require, "telescope")
 
--- TODO: make dependency errors occur in a better way
 if not has_telescope then
-  error("This plugin requires telescope.nvim (https://github.com/nvim-telescope/telescope.nvim)")
+  local error_message = "This plugin requires telescope.nvim (https://github.com/nvim-telescope/telescope.nvim)"
+  vim.notify(error_message)
+  error(error_message)
 end
 
 
@@ -13,16 +14,21 @@ local action_state = require('telescope.actions.state')
 local finders = require('telescope.finders')
 local pickers = require('telescope.pickers')
 local previewers = require('telescope.previewers')
+local sorters = require('telescope.sorters')
 local conf = require('telescope.config').values
 
-local M = {}
+local utils_media = require('telescope.utils_media')
+local media_files_console = require('telescope._extensions.media_files_console')
 
+local M = {}
 local filetypes = {}
 local find_cmd = ""
 local image_stretch = 250
 local command_open_image = "eog"
+M.config_media = {}
 
-M.base_directory = ""
+
+-- Default preview: use new_termopen_previewer to create the console
 M.media_preview = defaulter(function(opts)
   return previewers.new_termopen_previewer {
     title = "Thumbnails",
@@ -34,12 +40,12 @@ M.media_preview = defaulter(function(opts)
         return { "echo", "" }
       end
       return {
-        M.base_directory .. '/scripts/vimg',
+        M.base_directory .. '/scripts/default_preview.sh',
         string.format([[%s/%s]], opts.cwd, tmp_table[1]),
-        preview.col,
-        preview.line + 1,
         preview.width,
         preview.height,
+        preview.col,
+        preview.line + 1,
         image_stretch
       }
     end
@@ -47,55 +53,12 @@ M.media_preview = defaulter(function(opts)
 end, {})
 
 function M.media_files(opts)
-  local find_commands = {
-    find = {
-      'find',
-      '.',
-      '-iregex',
-      [[.*\.\(]] .. table.concat(filetypes, "\\|") .. [[\)$]]
-    },
-    fd = {
-      'fd',
-      '--type',
-      'f',
-      '--regex',
-      [[.*.(]] .. table.concat(filetypes, "|") .. [[)$]],
-      '.'
-    },
-    fdfind = {
-      'fdfind',
-      '--type',
-      'f',
-      '--regex',
-      [[.*.(]] .. table.concat(filetypes, "|") .. [[)$]],
-      '.'
-    },
-    rg = {
-      'rg',
-      '--files',
-      '--glob',
-      [[*.{]] .. table.concat(filetypes, ",") .. [[}]],
-      '.'
-    },
-  }
-
-  if not vim.fn.executable(find_cmd) then
-    error("You don't have " .. find_cmd .. "! Install it first or use other finder.")
-    return
-  end
-
-  if not find_commands[find_cmd] then
-    error(find_cmd .. " is not supported!")
-    return
-  end
-
-  local sourced_file = require('plenary.debug_utils').sourced_filepath()
-  M.base_directory = vim.fn.fnamemodify(sourced_file, ":h:h:h:h")
+  local path_nvim_media_file = require('plenary.debug_utils').sourced_filepath()
+  M.base_directory = vim.fn.fnamemodify(path_nvim_media_file, ":h:h:h:h")
   opts = opts or {}
   opts.attach_mappings = function(_, map)
     local selection
-
-    map({'i', 'n'}, '<C-i>', function()
+    map({ 'i', 'n' }, '<C-i>', function()
       selection = action_state.get_selected_entry()
       local command_open = command_open_image .. ' "' .. selection.value .. '"'
       local success = os.execute(command_open)
@@ -103,10 +66,8 @@ function M.media_files(opts)
         vim.notify("Error excecuting the command: " .. command_open, vim.log.levels.ERROR)
       end
     end)
-
-    map('n', '<CR>', function(prompt_bufnr)
+    map({ 'i', 'n' }, '<CR>', function(_)
       selection = action_state.get_selected_entry()
-      actions.close(prompt_bufnr)
       vim.fn.setreg(vim.v.register, selection.value)
       vim.notify("The image path has been copied!" .. selection.value)
     end)
@@ -121,14 +82,12 @@ function M.media_files(opts)
   local picker = pickers.new(opts, {
     prompt_title = 'Media Files',
     finder = finders.new_oneshot_job(
-      find_commands[find_cmd],
+      utils_media.get_files(find_cmd, filetypes),
       opts
     ),
     previewer = M.media_preview.new(opts),
     sorter = conf.file_sorter(opts),
   })
-
-
   local line_count = vim.o.lines - vim.o.cmdheight
   if vim.o.laststatus ~= 0 then
     line_count = line_count - 1
@@ -137,14 +96,45 @@ function M.media_files(opts)
   picker:find()
 end
 
+function M.media_files_console(opts)
+  opts = opts or {}
+  opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.loop.cwd()
+  pickers.new({
+    prompt_title = "Media Files Console",
+    finder = finders.new_oneshot_job(
+      utils_media.get_files(find_cmd, filetypes), {
+        cwd = vim.fn.expand('%:p:h'),
+      }),
+    sorter = sorters.get_fuzzy_file(),
+    attach_mappings = function(_, map)
+      map({ 'i', 'n' }, '<C-t>', function()
+        local selection = action_state.get_selected_entry()
+        media_files_console.preview_custom_console(selection.value, M.config_media)
+      end)
+      map({ 'i', 'n' }, '<CR>', function()
+        local selection = action_state.get_selected_entry()
+        media_files_console.preview_custom_console(selection.value, M.config_media)
+        vim.fn.setreg(vim.v.register, selection.value)
+        vim.notify("The image path has been copied!" .. selection.value)
+      end)
+      return true
+    end,
+  }):find()
+end
+
 return require('telescope').register_extension {
   setup = function(ext_config)
     filetypes = ext_config.filetypes or { "jpg", "png", "jpeg", "webm", "gif", }
     find_cmd = ext_config.find_cmd or "fd"
     image_stretch = ext_config.image_stretch or 250
     command_open_image = ext_config.command_open_image or command_open_image
+    M.config_media.tmux_always_open_pane = ext_config.tmux_always_open_pane or 0
+    M.config_media.tmux_time_wait = ext_config.tmux_time_wait or 1.5
+    M.config_media.tmux_index_pane_thumbnail = ext_config.tmux_index_pane_thumbnail or -1
+    M.config_media.tmux_command_show_thumbnail = ext_config.tmux_command_show_thumbnail or "kitten icat"
   end,
   exports = {
-    media_files = M.media_files
+    media_files = M.media_files,
+    media_files_console = M.media_files_console,
   },
 }
