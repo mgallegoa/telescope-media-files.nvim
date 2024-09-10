@@ -17,7 +17,12 @@ function render_at_size {
   max_width=${2}
   max_height=${3}
   img_path="${1}"
-  chafa --center=on --clear --colors=full -w 9 "${img_path}"
+  if [ -z "$5" ]; then
+    chafa --center=on --clear --colors=full -w 9 "${img_path}"
+  else
+    "${5} " "${img_path}"
+  fi
+
   if command -v file > /dev/null 2>&1; then
     file "${4}"
   fi
@@ -97,7 +102,7 @@ function parse_options {
     echo -e "Loading preview...\nFile: $1 \n"
     case $extension in
     jpg | png | jpeg | webp)
-        render_at_size "$1" $2 $3 "$1"
+        render_at_size "$1" $2 $3 "$1" "$4"
     ;;
 
     svg)

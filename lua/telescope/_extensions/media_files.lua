@@ -1,4 +1,4 @@
-local has_telescope, telescope = pcall(require, "telescope")
+local has_telescope = pcall(require, "telescope")
 
 if not has_telescope then
   local error_message = "This plugin requires telescope.nvim (https://github.com/nvim-telescope/telescope.nvim)"
@@ -9,7 +9,6 @@ end
 
 local utils = require('telescope.utils')
 local defaulter = utils.make_default_callable
-local actions = require('telescope.actions')
 local action_state = require('telescope.actions.state')
 local finders = require('telescope.finders')
 local pickers = require('telescope.pickers')
@@ -44,6 +43,7 @@ M.media_preview = defaulter(function(opts)
         string.format([[%s/%s]], opts.cwd, tmp_table[1]),
         preview.width,
         preview.height,
+        M.config_media.command_open_thumbnail,
         preview.col,
         preview.line + 1,
         image_stretch
@@ -128,10 +128,10 @@ return require('telescope').register_extension {
     find_cmd = ext_config.find_cmd or "fd"
     image_stretch = ext_config.image_stretch or 250
     command_open_image = ext_config.command_open_image or command_open_image
+    M.config_media.command_open_thumbnail = ext_config.command_open_thumbnail or ""-- "kitten icat"
     M.config_media.tmux_always_open_pane = ext_config.tmux_always_open_pane or 0
     M.config_media.tmux_time_wait = ext_config.tmux_time_wait or 1.5
     M.config_media.tmux_index_pane_thumbnail = ext_config.tmux_index_pane_thumbnail or -1
-    M.config_media.tmux_command_show_thumbnail = ext_config.tmux_command_show_thumbnail or "kitten icat"
     M.config_media.tmux_resize_open_pane = ext_config.tmux_resize_open_pane or 0
   end,
   exports = {

@@ -4,13 +4,17 @@ function M.preview_custom_console(selected_value, config_media)
   local path_nvim_media_file = require('plenary.debug_utils').sourced_filepath()
   local path_nvim_media = vim.fn.fnamemodify(path_nvim_media_file, ":h:h:h:h")
   local filename = selected_value
+  local command_thumbnail = "kitten icat"
+  if config_media.command_open_thumbnail ~= "" then
+    command_thumbnail = config_media.command_open_thumbnail
+  end
   local params = {
-    filename,                                 -- Image to show.
-    config_media.tmux_always_open_pane,       -- Does always open a new pane? 0 No, 1 Yes.
-    config_media.tmux_time_wait,              -- Time in seconds, to wait to load the image.
-    config_media.tmux_index_pane_thumbnail,   -- Index of the Tmux pane to show the image, Tmux pane start from 0. Let -1 to desable.
-    config_media.tmux_command_show_thumbnail, -- Command to execute to open the Thumbnail.
-    config_media.tmux_resize_open_pane,       -- Number of columns to resize the opened pane.
+    filename,                               -- Image to show.
+    command_thumbnail,                      -- Command to execute to open the Thumbnail.
+    config_media.tmux_always_open_pane,     -- Does always open a new pane? 0 No, 1 Yes.
+    config_media.tmux_time_wait,            -- Time in seconds, to wait to load the image.
+    config_media.tmux_index_pane_thumbnail, -- Index of the Tmux pane to show the image, Tmux pane start from 0. Let -1 to desable.
+    config_media.tmux_resize_open_pane,     -- Number of columns to resize the opened pane.
   }
 
   local command = { path_nvim_media .. '/scripts/tmux_kitty_preview.sh', table.unpack(params) }
