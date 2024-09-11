@@ -96,9 +96,8 @@ function M.media_files(opts)
   picker:find()
 end
 
-function M.media_files_console(opts)
-  opts = opts or {}
-  opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.loop.cwd()
+function M.media_files_console()
+  M.config_media.cwd = vim.loop.cwd()
   pickers.new({
     prompt_title = "Media Files Console",
     finder = finders.new_oneshot_job(
@@ -128,7 +127,7 @@ return require('telescope').register_extension {
     find_cmd = ext_config.find_cmd or "fd"
     image_stretch = ext_config.image_stretch or 250
     command_open_image = ext_config.command_open_image or command_open_image
-    M.config_media.command_open_thumbnail = ext_config.command_open_thumbnail or ""-- "kitten icat"
+    M.config_media.command_open_thumbnail = ext_config.command_open_thumbnail or ""
     M.config_media.tmux_always_open_pane = ext_config.tmux_always_open_pane or 0
     M.config_media.tmux_time_wait = ext_config.tmux_time_wait or 1.5
     M.config_media.tmux_index_pane_thumbnail = ext_config.tmux_index_pane_thumbnail or -1
