@@ -4,16 +4,12 @@
 # After configure the pane, it call the default bash to show the thumbnail but in the new pane created.
 # This bash call to the file ./default_preview.sh to show the Thumbnails, using the same
 #   confgiuration for the file types allowed. Ejm: jpeg, pdf, mp4, ttf, svg, gif
-function tmux_kitty_preview {
+function tmux_preview {
    if ! command -V tmux &> /dev/null; then
       printf "tmux could not be found in your PATH.\n\nPlease install it to display media content."
       exit 127
   fi
 
-  if ! command -v kitty &> /dev/null; then
-      printf "kitty could not be found in your PATH.\n\nPlease install it to display media content."
-      exit 127
-  fi
   file_name=${1}
   printf "Loading Tmux preview...\nFile: ${file_name} \n"
   command_thumbnail="${2}"
@@ -60,5 +56,5 @@ function tmux_kitty_preview {
   true
 }
 
-tmux_kitty_preview "${@}"
+tmux_preview "${@}"
 read
