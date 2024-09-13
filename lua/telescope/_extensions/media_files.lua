@@ -23,7 +23,6 @@ local M = {}
 local filetypes = {}
 local find_cmd = ""
 local image_stretch = 250
-local command_open_image = "eog"
 M.config_media = {}
 
 
@@ -35,6 +34,7 @@ M.media_preview = defaulter(function(opts)
       local tmp_table = vim.split(entry.value, "\t");
       local preview = opts.get_preview_window()
       opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.loop.cwd()
+      M.config_media.cwd = opts.cwd
       if vim.tbl_isempty(tmp_table) then
         return { "echo", "" }
       end
@@ -60,16 +60,15 @@ function M.media_files(opts)
     local selection
     map({ 'i', 'n' }, '<C-i>', function()
       selection = action_state.get_selected_entry()
-      local command_open = command_open_image .. ' "' .. selection.value .. '"'
-      local success = os.execute(command_open)
-      if not success or success > 0 then
-        vim.notify("Error excecuting the command: " .. command_open, vim.log.levels.ERROR)
-      end
+      M.config_media.file_name = utils_media.get_completed_path(M.config_media, selection.value)
+      M.config_media.path_default_preview = utils_media.get_default()
+      local command = utils_media.get_command_open_image(M.config_media)
+      media_files_console.execute_command(command)
     end)
     map({ 'i', 'n' }, '<CR>', function(_)
       selection = action_state.get_selected_entry()
       vim.fn.setreg(vim.v.register, selection.value)
-      vim.notify("The image path has been copied!" .. selection.value)
+      -- vim.notify("The image path has been copied!" .. selection.value)
     end)
     return true
   end
@@ -106,6 +105,13 @@ function M.media_files_console()
       }),
     sorter = sorters.get_fuzzy_file(),
     attach_mappings = function(_, map)
+      map({ 'i', 'n' }, '<C-i>', function()
+        local selection = action_state.get_selected_entry()
+        M.config_media.file_name = utils_media.get_completed_path(M.config_media, selection.value)
+        M.config_media.path_default_preview = utils_media.get_default()
+        local command = utils_media.get_command_open_image(M.config_media)
+        media_files_console.execute_command(command)
+      end)
       map({ 'i', 'n' }, '<C-t>', function()
         local selection = action_state.get_selected_entry()
         media_files_console.preview_custom_console(selection.value, M.config_media)
@@ -114,7 +120,7 @@ function M.media_files_console()
         local selection = action_state.get_selected_entry()
         media_files_console.preview_custom_console(selection.value, M.config_media)
         vim.fn.setreg(vim.v.register, selection.value)
-        vim.notify("The image path has been copied!" .. selection.value)
+        -- vim.notify("The image path has been copied!" .. selection.value)
       end)
       return true
     end,
@@ -126,7 +132,7 @@ return require('telescope').register_extension {
     filetypes = ext_config.filetypes or { "jpg", "png", "jpeg", "webm", "gif", }
     find_cmd = ext_config.find_cmd or "fd"
     image_stretch = ext_config.image_stretch or 250
-    command_open_image = ext_config.command_open_image or command_open_image
+    M.config_media.command_open_image = ext_config.command_open_image or "eog"
     M.config_media.command_open_thumbnail = ext_config.command_open_thumbnail or ""
 
     M.config_media.external_environment = ext_config.external_environment or "tmux"

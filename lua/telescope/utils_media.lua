@@ -1,5 +1,9 @@
 local M = {}
 
+M.NAME_SCRIPT_DEFAULT_PREVIEW = '/scripts/default_preview.sh'
+M.NAME_SCRIPT_TMUX_PREVIEW = '/scripts/tmux_preview.sh'
+M.NAME_SCRIPT_KITTY_PREVIEW = '/scripts/kitty_preview.sh'
+
 -- This method validate if is installed the program configured to find.
 -- The default program to find is fd.
 --
@@ -75,7 +79,7 @@ function M.get_tmux_command(config_media)
     config_media.tmux_resize_open_pane,     -- Number of columns to resize the opened pane.
     config_media.path_default_preview,      -- Contain the path to the file script to show the Thumbnail.
   }
-  local command = { config_media.path_nvim_media .. '/scripts/tmux_preview.sh', table.unpack(config) }
+  local command = { config_media.path_nvim_media .. M.NAME_SCRIPT_TMUX_PREVIEW, table.unpack(config) }
   return command
 end
 
@@ -96,8 +100,45 @@ function M.get_kitty_command(config_media)
     config_media.kitty_resize_open_window,     -- Number of columns to size the opened window.
     config_media.path_default_preview,         -- Contain the path to the default file script to show the Thumbnail.
   }
-  local command = { config_media.path_nvim_media .. '/scripts/kitty_preview.sh', table.unpack(config) }
+  local command = { config_media.path_nvim_media .. M.NAME_SCRIPT_KITTY_PREVIEW, table.unpack(config) }
   return command
+end
+
+-- Return the table object with the configuration params to execute the sh for tmux
+--
+function M.get_command_open_image(config_media)
+  local config = {
+    config_media.file_name,          -- File image to show.
+    0,                               -- max_width to open the image, no apply because the image will be open with external program in this case.
+    0,                               -- max_hight to open the image, no apply because the image will be open with external program in this case.
+    config_media.command_open_image, -- Command to execute to open the image.
+  }
+  local command = { config_media.path_default_preview, table.unpack(config) }
+  return command
+end
+
+-- Return the path file name selected.
+-- If it have a dot in the file name, removed and add the path for the image.
+function M.get_completed_path(config_media, selected_value)
+  local file_name = config_media.cwd
+  if selected_value:sub(1, 1) == "." then
+    file_name = file_name .. selected_value:sub(2)
+  else
+    file_name = file_name .. selected_value
+  end
+  return file_name
+end
+
+-- Return the root path for the telescope media files plugin.
+function M.get_path_nvim_media()
+  local path_nvim_media_file = require('plenary.debug_utils').sourced_filepath()
+  local path_nvim_media = vim.fn.fnamemodify(path_nvim_media_file, ":h:h:h")
+  return path_nvim_media
+end
+
+-- Return the default script to preview the files in images
+function M.get_default()
+  return M.get_path_nvim_media() .. M.NAME_SCRIPT_DEFAULT_PREVIEW
 end
 
 return M
