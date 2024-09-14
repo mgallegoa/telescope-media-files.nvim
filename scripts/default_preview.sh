@@ -102,12 +102,30 @@ function fontimagepreview {
   render_at_size "${converted_font_img_path}" "${2}" "${3}" "${img_path}" "${4}"
 }
 
+function webp_image_preview {
+  if ! command -v ffmpeg &> /dev/null; then
+      printf "ffmpeg could not be found in your PATH.\n\nPlease install it to display font previews."
+     exit 127
+  fi
+  readonly converted_webp_img_path="${TMP_FOLDER}/webp_preview-convert.png"
+  img_path="${1}"
+  printf "Strartint to convert"
+  printf ${converted_webp_img_path}
+  error_message=$(ffmpeg -y -i "${img_path}" "${converted_webp_img_path}" 2>&1)
+  printf "end to convert, error: "$error_message
+  if [ $? -ne 0 ]; then
+    printf "Cann't convert the file, check if the file have a password, error: %s" "$error_message"
+    exit
+  fi
+  render_at_size "${converted_webp_img_path}" "${2}" "${3}" "${img_path}" "${4}"
+}
+
 function parse_options {
     clear
     extension="${1##*.}"
     printf "Loading default preview...\nFile: ${1} \n"
     case $extension in
-    jpg | png | jpeg | webp)
+    jpg | png | jpeg)
         render_at_size "$1" $2 $3 "$1" "$4"
     ;;
 
@@ -130,9 +148,15 @@ function parse_options {
     epub)
         epubpreview "$1" $2 $3 "$4"
     ;;
+
     ttf | otf | woff)
         fontimagepreview "$1" $2 $3 "$4"
     ;;
+
+    webp)
+        webp_image_preview "$1" $2 $3 "$4"
+    ;;
+
 
     *)
     printf "unknown file type path:\n$1"

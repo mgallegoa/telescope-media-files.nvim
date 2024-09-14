@@ -67,5 +67,6 @@ When you press `<CR>` on a selected file, it will copy its relative path to the 
 * [pdftoppm](https://linux.die.net/man/1/pdftoppm) (optional, for pdf preview support. Available in the AUR as **poppler** package.)
 * [epub-thumbnailer](https://github.com/marianosimone/epub-thumbnailer) (optional, for epub preview support.)
 * [fontpreview](https://github.com/sdushantha/fontpreview) (optional, for font preview support). But it is necessary to instal imageMagic version > 7 to work correctly (https://github.com/ImageMagick/ImageMagick) and follow the insatallation accourding to your system, for example in Unix (https://github.com/ImageMagick/ImageMagick/blob/main/Install-unix.txt)
+* webp (optional): Use the "ffmpeg" command to convert to image.
 
 credit to https://github.com/cirala/vifmimg
