@@ -9,8 +9,10 @@ This is allowed thanks to the Tmux ability to open new panes and use opend panes
 
 ### Manage the pane to show the Thumbnail (tmux_index_pane_thumbnail)
 
+The next video show how configured the plugin to show the Thumbnail in an specifict pane (https://mgallegoa.github.io/telescope-media-files/telescope-media-file-tmux-kitty-index-pane.webm)
+
 <video width="640" height="360" controls>
-  <source src="telescope-media-file-tmux-kitty-index-pane.webm" type="video/webm">
+  <source src="https://mgallegoa.github.io/telescope-media-files/telescope-media-file-tmux-kitty-index-pane.webm" type="video/webm">
   Your browser does not support the video tag.
 </video>
 

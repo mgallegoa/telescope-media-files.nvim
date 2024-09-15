@@ -7,6 +7,7 @@ Preview images, gif, pdf, epub, video, and fonts from Neovim using Telescope. Su
 ![Tmux+kitty](documentation/Telescope-media-file-tmux-kitty.gif)
 
 ## Install
+### Lazy
 ```Lazy
 return {
     "mgallegoa/telescope-media-files.nvim",
@@ -24,10 +25,11 @@ require('telescope').load_extension('media_files')
 
 ```
 
-## Configuration
-This extension can be configured using `extensions` field inside Telescope
-setup function.
+## Custom Configuration
+This extension can be configured using `extensions` field inside Telescope setup function.
 
+### Example custom configuration with Lazy
+In the next example, the filetypes is configure to acept other types of the files (check the Prerequisites section optionals) and change the default find command (fd) to rg -->
 ```lua
 
     config = function()
@@ -60,7 +62,8 @@ lua require('telescope').extensions.media_files.media_files_console()
 ```
 or using key-binding
 ```lua
-:Telescope media_files
+:Telescope media_files.media_files()
+:Telescope media_files.media_files_console()
 
 keys = {
       { "<leader>fm", "<cmd>lua require('telescope').extensions.media_files.media_files()<cr>" },
