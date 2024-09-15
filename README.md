@@ -2,15 +2,9 @@
 Preview images, gif, pdf, epub, video, and fonts from Neovim using Telescope. Support Tmux + kitty
 
 ### Nvim
-![Nvim](Telescope-media-file-nvim.gif)
+![Nvim](documentation/Telescope-media-file-nvim.gif)
 ### Nvim + Tmux + Kitty
-![Tmux+kitty](Telescope-media-file-tmux-kitty.gif)
-
-<div style="display: flex; justify-content: space-around;">
-  <img src="Telescope-media-file-nvim.gif" alt="Nvim" style="width: 45%;"/>
-  <img src="Telescope-media-file-tmux-kitty.gif" alt="Tmux+kitty" style="width: 45%;"/>
-</div>
-
+![Tmux+kitty](documentation/Telescope-media-file-tmux-kitty.gif)
 
 ## Install
 ```Lazy
@@ -57,18 +51,17 @@ setup function.
 ```
 
 ## Available commands
+Over the file Ctl+i to open an image of the file (default viewer eog, but can be configured to other external viewer)
 ```viml
 :Telescope media_files
 
-"Using lua function
 lua require('telescope').extensions.media_files.media_files()
 lua require('telescope').extensions.media_files.media_files_console()
 ```
 or using key-binding
-```viml
+```lua
 :Telescope media_files
 
-"Using lua function
 keys = {
       { "<leader>fm", "<cmd>lua require('telescope').extensions.media_files.media_files()<cr>" },
       { "<leader>fn", "<cmd>lua require('telescope').extensions.media_files.media_files_console()<cr>" },
@@ -77,16 +70,22 @@ keys = {
 
 When you press `<Enter>` on a selected file, normal mode, it will copy its relative path to the clipboard
 
+## Recipes
+* [Nvim + Console](documentation/recipes_nvim_console.md)
+* [Nvim + Tmux + Console](documentation/recipes_nvim_tmux_console.md)
 
 ## Prerequisites
+### Requiered
 * [Chafa](https://hpjansson.org/chafa/) (required for image support)
-* [file](https://github.com/file/file) (optional, to view detailed information for the file)
-* [rsvg-convert](https://manpages.ubuntu.com/manpages/trusty/man1/rsvg-convert.1.html) (optional, for svg previews)
-* [fd](https://github.com/sharkdp/fd) / [rg](https://github.com/BurntSushi/ripgrep) / [find](https://man7.org/linux/man-pages/man1/find.1.html) or fdfind in Ubuntu/Debian.
-* [ffmpegthumbnailer](https://github.com/dirkvdb/ffmpegthumbnailer) (optional, for video preview support)
-* [pdftoppm](https://linux.die.net/man/1/pdftoppm) (optional, for pdf preview support. Available in the AUR as **poppler** package.)
-* [epub-thumbnailer](https://github.com/marianosimone/epub-thumbnailer) (optional, for epub preview support.)
-* [fontpreview](https://github.com/sdushantha/fontpreview) (optional, for font preview support). But it is necessary to instal imageMagic version > 7 to work correctly (https://github.com/ImageMagick/ImageMagick) and follow the insatallation accourding to your system, for example in Unix (https://github.com/ImageMagick/ImageMagick/blob/main/Install-unix.txt)
-* webp (optional): Use the [ffmpeg](https://www.ffmpeg.org/) command to convert to image.
+* [fd](https://manpages.ubuntu.com/manpages/focal/man1/fdfind.1.html)
+### Optionals
+* [file](https://github.com/file/file) : To view detailed information for the file at the buttom of the Thumbnail
+* [rg](https://github.com/BurntSushi/ripgrep) / [find](https://man7.org/linux/man-pages/man1/find.1.html) or fdfind in Ubuntu/Debian.
+* [rsvg-convert](https://manpages.ubuntu.com/manpages/trusty/man1/rsvg-convert.1.html) : For svg previews
+* [ffmpegthumbnailer](https://github.com/dirkvdb/ffmpegthumbnailer) : for video preview support
+* [pdftoppm](https://linux.die.net/man/1/pdftoppm) : for pdf preview support. Available in the AUR as **poppler** package.
+* [epub-thumbnailer](https://github.com/marianosimone/epub-thumbnailer) : for epub preview support.
+* [fontpreview](https://github.com/sdushantha/fontpreview) : for font preview support. But it is necessary to instal imageMagic version > 7 to work correctly (https://github.com/ImageMagick/ImageMagick) and follow the insatallation accourding to your system, for example in Unix (https://github.com/ImageMagick/ImageMagick/blob/main/Install-unix.txt)
+* [ffmpeg](https://www.ffmpeg.org/) : Use for webp previews.
 
 credit to https://github.com/cirala/vifmimg
