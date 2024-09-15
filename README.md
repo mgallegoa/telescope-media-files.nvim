@@ -51,6 +51,7 @@ In the next example, the filetypes is configure to acept other types of files (c
     }
 
 ```
+> 💡 **Tip:** [See the list of the config variables you can used to custom your view](documents/config_variables.md)
 
 ## Available commands
 Over the file Ctl+i to open an image of the file (default viewer eog, but can be configured to other external viewer)
@@ -77,6 +78,7 @@ When you press `<Enter>` on a selected file, normal mode, it will copy its relat
 * [Nvim + Console](documentation/recipes_nvim_console.md) contain example with kitty console.
 * [Nvim + Tmux + Console](documentation/recipes_nvim_tmux_console.md) contain example with kitty console.
 
+
 ## Prerequisites
 ### Requiered
 * [Chafa](https://hpjansson.org/chafa/) (required for image support)
@@ -90,5 +92,11 @@ When you press `<Enter>` on a selected file, normal mode, it will copy its relat
 * [epub-thumbnailer](https://github.com/marianosimone/epub-thumbnailer) : for epub preview support.
 * [fontpreview](https://github.com/sdushantha/fontpreview) : for font preview support. But it is necessary to instal imageMagic version > 7 to work correctly (https://github.com/ImageMagick/ImageMagick) and follow the insatallation accourding to your system, for example in Unix (https://github.com/ImageMagick/ImageMagick/blob/main/Install-unix.txt)
 * [ffmpeg](https://www.ffmpeg.org/) : Use for webp previews.
+
+## Other usefull documents pages
+* [Know errors/issues and how to fix](documentation/errors_issues_knows.md) contain the a list of know and document errors/issues and how to fix it.
+* [Tested environments](documentation/tested_environments.md) contain information of differents environments test and work well.
+
+
 
 credit to https://github.com/cirala/vifmimg
