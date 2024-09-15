@@ -1,7 +1,16 @@
 # Telescope-media-files.nvim
-Preview images, gif, pdf, epub, video, and fonts from Neovim using Telescope.
+Preview images, gif, pdf, epub, video, and fonts from Neovim using Telescope. Support Tmux + kitty
 
-![Demo](https://i.imgur.com/wEO04TK.gif)
+### Nvim
+![Nvim](Telescope-media-file-nvim.gif)
+### Nvim + Tmux + Kitty
+![Tmux+kitty](Telescope-media-file-tmux-kitty.gif)
+
+<div style="display: flex; justify-content: space-around;">
+  <img src="Telescope-media-file-nvim.gif" alt="Nvim" style="width: 45%;"/>
+  <img src="Telescope-media-file-tmux-kitty.gif" alt="Tmux+kitty" style="width: 45%;"/>
+</div>
+
 
 ## Install
 ```Lazy
@@ -32,10 +41,9 @@ setup function.
       telescope.setup({
         extensions = {
           media_files = {
-            -- filetypes whitelist
-            -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
-            filetypes = { "png", "jpg", "jpeg", "svg","gif", "pdf" },
-            -- find command (defaults to `fd`)
+            -- Change the defaults list { "png", "jpg", "jpeg", "svg" },
+            filetypes = { "png", "jpg", "jpeg", "webp", "svg", "gif", "pdf", "epub", "ttf", "mp4", "3gp", "mpeg" },
+            -- Change the default find command (defaults is `fd`)
             find_cmd = "rg"
           }
         },
@@ -43,6 +51,7 @@ setup function.
     end,
     keys = {
       { "<leader>fm", "<cmd>lua require('telescope').extensions.media_files.media_files()<cr>" },
+      { "<leader>fn", "<cmd>lua require('telescope').extensions.media_files.media_files_console()<cr>" },
     }
 
 ```
@@ -53,9 +62,20 @@ setup function.
 
 "Using lua function
 lua require('telescope').extensions.media_files.media_files()
+lua require('telescope').extensions.media_files.media_files_console()
+```
+or using key-binding
+```viml
+:Telescope media_files
+
+"Using lua function
+keys = {
+      { "<leader>fm", "<cmd>lua require('telescope').extensions.media_files.media_files()<cr>" },
+      { "<leader>fn", "<cmd>lua require('telescope').extensions.media_files.media_files_console()<cr>" },
+    }
 ```
 
-When you press `<CR>` on a selected file, it will copy its relative path to the clipboard
+When you press `<Enter>` on a selected file, normal mode, it will copy its relative path to the clipboard
 
 
 ## Prerequisites
@@ -67,6 +87,6 @@ When you press `<CR>` on a selected file, it will copy its relative path to the 
 * [pdftoppm](https://linux.die.net/man/1/pdftoppm) (optional, for pdf preview support. Available in the AUR as **poppler** package.)
 * [epub-thumbnailer](https://github.com/marianosimone/epub-thumbnailer) (optional, for epub preview support.)
 * [fontpreview](https://github.com/sdushantha/fontpreview) (optional, for font preview support). But it is necessary to instal imageMagic version > 7 to work correctly (https://github.com/ImageMagick/ImageMagick) and follow the insatallation accourding to your system, for example in Unix (https://github.com/ImageMagick/ImageMagick/blob/main/Install-unix.txt)
-* webp (optional): Use the "ffmpeg" command to convert to image.
+* webp (optional): Use the [ffmpeg](https://www.ffmpeg.org/) command to convert to image.
 
 credit to https://github.com/cirala/vifmimg
