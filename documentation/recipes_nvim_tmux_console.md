@@ -1,6 +1,6 @@
 # Recipe Nvim + Tmux + Console
 
-Objetive:
+### Objetive:
 Document the posibles configurations supported with Tmux and a console able to render images.
 
 In this section show the configuration with kitty (using kitten icat) to show the images, but could be extended to other consoles that support rendering images.
