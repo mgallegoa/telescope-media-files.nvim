@@ -51,7 +51,7 @@ In the next example, the filetypes is configure to acept other types of files (c
     }
 
 ```
-> 💡 **Tip:** [See the list of the config variables you can used to custom your view](documents/config_variables.md)
+> 💡 **Tip:** [See the list of the config variables you can used to custom your view](documentation/config_variables.md)
 
 ## Available commands
 Over the file Ctl+i to open an image of the file (default viewer eog, but can be configured to other external viewer)
