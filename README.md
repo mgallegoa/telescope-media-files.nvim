@@ -1,5 +1,5 @@
 # Telescope-media-files.nvim
-Preview images, gif, pdf, epub, video, and fonts from Neovim using Telescope. Support Tmux + kitty
+Preview images, gif, pdf, epub, video, and fonts from Neovim using Telescope + ASCII Art (whit Chafa). Support Tmux + console kitty
 
 ### Nvim
 ![Nvim](documentation/Telescope-media-file-nvim.gif)
@@ -29,7 +29,7 @@ require('telescope').load_extension('media_files')
 This extension can be configured using `extensions` field inside Telescope setup function.
 
 ### Example custom configuration with Lazy
-In the next example, the filetypes is configure to acept other types of the files (check the Prerequisites section optionals) and change the default find command (fd) to rg -->
+In the next example, the filetypes is configure to acept other types of files (check the Prerequisites section optionals) and change the default find command (fd) to rg -->
 ```lua
 
     config = function()
@@ -74,8 +74,8 @@ keys = {
 When you press `<Enter>` on a selected file, normal mode, it will copy its relative path to the clipboard
 
 ## Recipes
-* [Nvim + Console](documentation/recipes_nvim_console.md)
-* [Nvim + Tmux + Console](documentation/recipes_nvim_tmux_console.md)
+* [Nvim + Console](documentation/recipes_nvim_console.md) contain example with kitty console.
+* [Nvim + Tmux + Console](documentation/recipes_nvim_tmux_console.md) contain example with kitty console.
 
 ## Prerequisites
 ### Requiered
