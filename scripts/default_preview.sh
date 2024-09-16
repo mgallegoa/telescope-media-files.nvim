@@ -21,12 +21,8 @@ function render_at_size {
   max_height=${3}
   file_name="${4}"
   command_thumbnail="${5}"
-  if [ -z "${command_thumbnail}" ]; then
-    chafa --center=on --clear --colors=full -w 9 "${img_path}"
-  else
-    clear
-    eval "$command_thumbnail '$img_path'"
-  fi
+  clear
+  eval "$command_thumbnail '$img_path'"
 
   if command -v file > /dev/null 2>&1; then
     file "${file_name}"

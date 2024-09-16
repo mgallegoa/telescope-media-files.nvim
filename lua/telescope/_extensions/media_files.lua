@@ -133,7 +133,7 @@ return require('telescope').register_extension {
     find_cmd = ext_config.find_cmd or "fd"
     image_stretch = ext_config.image_stretch or 250
     M.config_media.command_open_image = ext_config.command_open_image or "eog"
-    M.config_media.command_open_thumbnail = ext_config.command_open_thumbnail or ""
+    M.config_media.command_open_thumbnail = ext_config.command_open_thumbnail or "chafa --center=on --clear --colors=full -w 9 "
 
     M.config_media.external_environment = ext_config.external_environment or "tmux"
     M.config_media.kitty_always_open_window = ext_config.kitty_always_open_window or 0

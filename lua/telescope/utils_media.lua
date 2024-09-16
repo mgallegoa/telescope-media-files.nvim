@@ -65,14 +65,9 @@ end
 -- Return the table object with the configuration params to execute the sh for tmux
 --
 function M.get_tmux_command(config_media)
-  -- Dev note: this default command should be placed here for not interfiered in the default picker thumbnail.
-  local command_thumbnail = "kitten icat"
-  if config_media.command_open_thumbnail ~= "" then
-    command_thumbnail = config_media.command_open_thumbnail
-  end
   local config = {
     config_media.file_name,                 -- Image to show.
-    command_thumbnail,                      -- Command to execute to open the Thumbnail.
+    config_media.command_open_thumbnail,    -- Command to execute to open the Thumbnail.
     config_media.tmux_always_open_pane,     -- Does always open a new pane? 0 No, 1 Yes.
     config_media.tmux_time_wait,            -- Time in seconds, to wait to load the image.
     config_media.tmux_index_pane_thumbnail, -- Index of the Tmux pane to show the image, Tmux pane start from 0. Let -1 to desable.
@@ -86,14 +81,9 @@ end
 -- Return the table object with the configuration params to execute the sh for kitty
 --
 function M.get_kitty_command(config_media)
-  -- Dev note: this default command should be placed here for not interfiered in the default picker thumbnail.
-  local command_thumbnail = "kitten icat"
-  if config_media.command_open_thumbnail ~= "" then
-    command_thumbnail = config_media.command_open_thumbnail
-  end
   local config = {
     config_media.file_name,                    -- Image to show.
-    command_thumbnail,                         -- Command to execute to open the Thumbnail.
+    config_media.command_open_thumbnail,       -- Command to execute to open the Thumbnail.
     config_media.kitty_always_open_window,     -- Does always open a new window? 0 No, 1 Yes.
     config_media.kitty_time_wait,              -- Time in seconds, to wait to load the image.
     config_media.kitty_index_window_thumbnail, -- Id of the kitty windows to show the image.
