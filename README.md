@@ -6,6 +6,8 @@ Preview images, gif, pdf, epub, video, and fonts from Neovim using Telescope + A
 ### Nvim + Tmux + Kitty
 ![Tmux+kitty](documentation/Telescope-media-file-tmux-kitty.gif)
 
+> ⭐ **Important:** If you like, let your star
+
 ## Install
 ### Lazy
 ```Lazy
@@ -29,7 +31,7 @@ require('telescope').load_extension('media_files')
 This extension can be configured using `extensions` field inside Telescope setup function.
 
 ### Example custom configuration with Lazy
-In the next example, the filetypes is configure to acept other types of files (check the Prerequisites section optionals) and change the default find command (fd) to rg -->
+In the next example, the filetypes is configure to accept other types of files (check the Prerequisites section optional) and change the default find command (fd) to rg -->
 ```lua
 
     config = function()
@@ -37,10 +39,10 @@ In the next example, the filetypes is configure to acept other types of files (c
       telescope.setup({
         extensions = {
           media_files = {
-            -- Change the defaults list { "png", "jpg", "jpeg", "svg" },
-            filetypes = { "png", "jpg", "jpeg", "webp", "svg", "gif", "pdf", "epub", "ttf", "mp4", "3gp", "mpeg" },
-            -- Change the default find command (defaults is `fd`)
-            find_cmd = "rg"
+            filetypes = { "png", "jpg", "jpeg", "webp", "svg", "gif", "pdf", "epub", "ttf", "mp4", "3gp", "mpeg" }, -- default {"png", "jpg", "mp4", "webm", "pdf"}
+            find_cmd = "rg",                                                                                        -- find command defaults to `fd`
+            -- command_open_imen = "display" -- Example to use imageMagick to show the image instead default eog
+            -- command_open_image = 'gnome-terminal -- env TMUX="" kitty --hold kitten ica' -- Example to use the kitty terminal for the images
           }
         },
       })
@@ -75,8 +77,9 @@ keys = {
 When you press `<Enter>` on a selected file, normal mode, it will copy its relative path to the clipboard
 
 ## Recipes
-* [Nvim + Console](documentation/recipes_nvim_console.md) contain example with kitty console.
-* [Nvim + Tmux + Console](documentation/recipes_nvim_tmux_console.md) contain example with kitty console.
+* [Nvim](documentation/recipes_nvim_console.md)
+* [Nvim + Tmux](documentation/recipes_nvim_tmux_console.md)
+* [Nvim + Tmux + kitty](documentation/recipes_nvim_tmux_kitty.md)
 
 
 ## Prerequisites
@@ -90,12 +93,12 @@ When you press `<Enter>` on a selected file, normal mode, it will copy its relat
 * [ffmpegthumbnailer](https://github.com/dirkvdb/ffmpegthumbnailer) : for video preview support
 * [pdftoppm](https://linux.die.net/man/1/pdftoppm) : for pdf preview support. Available in the AUR as **poppler** package.
 * [epub-thumbnailer](https://github.com/marianosimone/epub-thumbnailer) : for epub preview support.
-* [fontpreview](https://github.com/sdushantha/fontpreview) : for font preview support. But it is necessary to instal imageMagic version > 7 to work correctly (https://github.com/ImageMagick/ImageMagick) and follow the insatallation accourding to your system, for example in Unix (https://github.com/ImageMagick/ImageMagick/blob/main/Install-unix.txt)
+* [fontpreview](https://github.com/sdushantha/fontpreview) : for font preview support. But it is necessary to install imageMagic version > 7 to work correctly (https://github.com/ImageMagick/ImageMagick) and follow the insatallation accourding to your system, for example in Unix (https://github.com/ImageMagick/ImageMagick/blob/main/Install-unix.txt)
 * [ffmpeg](https://www.ffmpeg.org/) : Use for webp previews.
 
 ## Other usefull documents pages
-* [Know errors/issues and how to fix](documentation/errors_issues_knows.md) contain the a list of know and document errors/issues and how to fix it.
-* [Tested environments](documentation/tested_environments.md) contain information of differents environments test and work well.
+* [Know errors/issues and how to fix](documentation/errors_issues_knows.md) contain a list of know and document errors/issues and how to fix it.
+* [Tested environments](documentation/tested_environments.md) contain information of different environments test and work well.
 
 
 
