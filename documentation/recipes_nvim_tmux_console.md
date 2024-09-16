@@ -1,9 +1,9 @@
 # Recipe Nvim + Tmux
 
 ### Objective:
-Document the possibles configurations supported with Tmux.
+Document the possibles configurations supported with Tmux. Each section have associate a video helpful showing the result for each configuration.
 
-In this section show the configuration with kitty (using kitten icat) to show the images, but could be extended to other consoles that support rendering images.
+In this section show the configuration with tmux and console that doesn't support render images. If your console support render images like kitty (using kitten icat) to show the images, see the section [Tmux + Kitty](recipes_nvim_tmux_kitty.md). This could be extended to other consoles that support rendering images.
 
 ## Nvim + Tmux
 
@@ -24,9 +24,9 @@ This examples is for consoles doesn't support render images, for consoles that s
 
 > 💡 **Tip:** You can also use the two methods at the same time media_files() and media_files_console()
 
-> ⚠️ **Warning for console:** With gif files and used of panes, chafa by default loop to infinite the gif, in some consoles this block the console, if you experiment this behavior can send the flag duration to the number of seconds in the config variable. For example "chafa --center=on --clear --colors=full -w 9 --duration=5 "
+> ⚠️ **Warning for console:** With gif files and used of panes, chafa by default loop to infinite the gif, in some consoles this block the console, if you experiment this behavior can send the flag duration to the number of seconds in the config variable. For example: command_open_thumbnail="chafa --center=on --clear --colors=full -w 9 --duration=5 "
 
-Next commented the custom values for the configuration variables used for the videos example -->
+Next, commented the custom values for the configuration variables used for the videos example -->
 ```lua
 
     config = function()
@@ -63,7 +63,7 @@ Default value 0 change to 1: This config variable indicate to the telescope-medi
 
 ### Configure the time to wait to render an image in console to show the Thumbnail (tmux_time_wait)
 
-This is allowed by configuring the tmux_time_wait in the setup for the telescope-media-files plugin. Render and image in console can be heavy and the console need some time to render it, with this variable you can manage this time.
+This is allowed by configuring the tmux_time_wait in the setup for the telescope-media-files plugin. Render an image in console can be heavy and the console need some time to render it, with this variable you can manage this time.
 
 Default value 0 change to 'number value': This config variable indicate to the telescope-media-file plugin if the console render need to wait some time to show the Thumbnail.
 
@@ -86,6 +86,7 @@ This is allowed by configuring the tmux_resize_open_pane in the setup for the te
 Default value 0 change to 'number value': This config variable indicate to the telescope-media-file plugin if the new pane is sized to a specific column number. The panes in Tmux always open in the half of the screen, with this config variable you can change this behavior.
 
 Example video the new pane is configured to 30 columns -->
+
 [video telescope-media-file-tmux_resize_open_pane.webm](https://mgallegoa.github.io/telescope-media-files/telescope-media-file-tmux_resize_open_pane.webm)
 
 
