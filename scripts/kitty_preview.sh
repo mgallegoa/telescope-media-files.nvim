@@ -3,7 +3,7 @@
 # This bash file allow work with kitty windows.
 # After configure the kitty window, it call the default bash to show the thumbnail but in the new window created.
 # This bash call to the file ./default_preview.sh to show the Thumbnails, using the same
-#   confgiuration for the file types allowed. Ejm: jpeg, pdf, mp4, ttf, svg, gif
+#   configuration for the file types allowed. Ejm: jpeg, pdf, mp4, ttf, svg, gif
 function kitty_preview {
   if ! command -v kitty &> /dev/null; then
       printf "kitty could not be found in your PATH.\n\nPlease install it to display media content."
@@ -17,9 +17,10 @@ function kitty_preview {
   kitty_id_window_thumbnail="${5}"
   kitty_resize_open_window="${6}"
   path_default_preview="${7}"
+  show_file_details="${8}"
 
   # TODO: This command fire an error in some machines that not
-  # support server comunications.
+  # support server communications.
   # Enable the control socket to interact with kitty
   kitty -o allow_remote_control=yes -o enabled_layouts=tall
 
@@ -39,8 +40,8 @@ function kitty_preview {
       kitty resize-window -x "${kitty_resize_open_window}"
     fi
   fi
-  # Validation if only exist one window, it is necesary to
-  # send the commands to ne next opend window.
+  # Validation if only exist one window, it is necessary to
+  # send the commands to ne next opened window.
   if [[ "${kitty_id_window_thumbnail}" -lt 0 ]]; then
     kitty_id_window_thumbnail=$(("${current_window_id}" + 1))
   fi
@@ -48,7 +49,7 @@ function kitty_preview {
   # Extract height and width from the output
   width=$(kitty @ ls | jq -r '.windows[] | select(.id == "12345") | .width')
   height=$(kitty @ ls | jq -r '.windows[] | select(.id == "12345") | .height')
-  command_script_params="$path_default_preview '${file_name}' ${width} ${height} '${command_thumbnail}'"
+  command_script_params="$path_default_preview '${file_name}' ${width} ${height} '${command_thumbnail}' ${show_file_details}"
   kitty @ exec --to="${window_id_configured}" "${command_script_params}"
 
 

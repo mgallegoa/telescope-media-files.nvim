@@ -3,7 +3,7 @@
 # This bash file allow work with Tmux panes.
 # After configure the pane, it call the default bash to show the thumbnail but in the new pane created.
 # This bash call to the file ./default_preview.sh to show the Thumbnails, using the same
-#   confgiuration for the file types allowed. Ejm: jpeg, pdf, mp4, ttf, svg, gif
+#   configuration for the file types allowed. Ejm: jpeg, pdf, mp4, ttf, svg, gif
 function tmux_preview {
    if ! command -V tmux &> /dev/null; then
       printf "tmux could not be found in your PATH.\n\nPlease install it to display media content."
@@ -18,6 +18,7 @@ function tmux_preview {
   tmux_index_pane_thumbnail="${5}"
   tmux_resize_open_pane="${6}"
   path_default_preview="${7}"
+  show_file_details="${8}"
 
   current_pane_index=$(tmux display-message -p '#{pane_index}')
   if [[ "$current_pane_index" -eq "$tmux_index_pane_thumbnail" ]]; then
@@ -35,8 +36,8 @@ function tmux_preview {
       tmux resize-pane -x "${tmux_resize_open_pane}"
     fi
   fi
-  # Validation if only exist one pane, it is necesary to
-  # send the commands to ne next opend pane.
+  # Validation if only exist one pane, it is necessary to
+  # send the commands to ne next opened pane.
   if [[ "${tmux_index_pane_thumbnail}" -lt 0 ]]; then
     tmux_index_pane_thumbnail=$(("${current_pane_index}" + 1))
   fi
@@ -46,7 +47,7 @@ function tmux_preview {
   # Extract height and width from the output
   width=$(echo $pane_size | cut -d'x' -f2)
   height=$(echo $pane_size | cut -d'x' -f1)
-  command_script_params="$path_default_preview '${file_name}' ${width} ${height} '${command_thumbnail}'"
+  command_script_params="$path_default_preview '${file_name}' ${width} ${height} '${command_thumbnail}' ${show_file_details}"
   tmux send-keys -t "${pane_index_configured}" "${command_script_params}" C-m
 
 

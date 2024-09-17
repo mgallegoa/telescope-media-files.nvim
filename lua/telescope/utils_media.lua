@@ -25,7 +25,7 @@ function M.get_files(find_cmd, file_types)
   return find_commands[find_cmd]
 end
 
--- This method return an object with differents program used to find files.
+-- This method return an object with different program used to find files.
 --
 function M.get_find_command(file_types)
   local command = {
@@ -70,9 +70,10 @@ function M.get_tmux_command(config_media)
     config_media.command_open_thumbnail,    -- Command to execute to open the Thumbnail.
     config_media.tmux_always_open_pane,     -- Does always open a new pane? 0 No, 1 Yes.
     config_media.tmux_time_wait,            -- Time in seconds, to wait to load the image.
-    config_media.tmux_index_pane_thumbnail, -- Index of the Tmux pane to show the image, Tmux pane start from 0. Let -1 to desable.
+    config_media.tmux_index_pane_thumbnail, -- Index of the Tmux pane to show the image, Tmux pane start from 0. Let -1 disable.
     config_media.tmux_resize_open_pane,     -- Number of columns to resize the opened pane.
     config_media.path_default_preview,      -- Contain the path to the file script to show the Thumbnail.
+    config_media.show_file_details,         -- Indicate if show the file information at the button of the Thumbnail.
   }
   local command = { config_media.path_nvim_media .. M.NAME_SCRIPT_TMUX_PREVIEW, table.unpack(config) }
   return command
@@ -89,6 +90,7 @@ function M.get_kitty_command(config_media)
     config_media.kitty_index_window_thumbnail, -- Id of the kitty windows to show the image.
     config_media.kitty_resize_open_window,     -- Number of columns to size the opened window.
     config_media.path_default_preview,         -- Contain the path to the default file script to show the Thumbnail.
+    config_media.show_file_details,            -- Indicate if show the file information at the button of the Thumbnail.
   }
   local command = { config_media.path_nvim_media .. M.NAME_SCRIPT_KITTY_PREVIEW, table.unpack(config) }
   return command

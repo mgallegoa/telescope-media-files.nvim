@@ -21,10 +21,12 @@ function render_at_size {
   max_height=${3}
   file_name="${4}"
   command_thumbnail="${5}"
+  show_file_details=${6}
+
   clear
   eval "$command_thumbnail '$img_path'"
 
-  if command -v file > /dev/null 2>&1; then
+  if [ "$show_file_details" -eq 1 ] && command -v file >/dev/null 2>&1; then
     file "${file_name}"
   fi
   exit 0
@@ -39,7 +41,7 @@ function svg {
   img_path="${1}"
   rsvg-convert "${img_path}" -o "${converted_img_path}"
   
-  render_at_size "${converted_img_path}" "${2}" "${3}" "${img_path}" "${4}"
+  render_at_size "${converted_img_path}" "${2}" "${3}" "${img_path}" "${4}" $5
 }
 function videopreview {
   if ! command -v ffmpegthumbnailer &> /dev/null; then
@@ -50,7 +52,7 @@ function videopreview {
   img_path="${1}"
   ffmpegthumbnailer -i "$img_path" -o "${converted_img_path}" -s 0 -q 10
 
-  render_at_size "${converted_img_path}" "${2}" "${3}" "${img_path}" "${4}"
+  render_at_size "${converted_img_path}" "${2}" "${3}" "${img_path}" "${4}" $5
 
 }
 function pdfpreview {
@@ -65,7 +67,7 @@ function pdfpreview {
     printf "Cann't convert the file, check if the file have a password, error: %s" "$error_message"
     exit
   fi
-  render_at_size "${converted_pdf_img_path}.png" "${2}" "${3}" "${img_path}" "${4}"
+  render_at_size "${converted_pdf_img_path}.png" "${2}" "${3}" "${img_path}" "${4}" $5
 }
 
 function epubpreview {
@@ -80,7 +82,7 @@ function epubpreview {
     printf "Cann't convert the file, check if the file have a password, error: %s" "$error_message"
     exit 127
   fi
-  render_at_size "${converted_epub_img_path}" "${2}" "${3}" "${img_path}" "${4}"
+  render_at_size "${converted_epub_img_path}" "${2}" "${3}" "${img_path}" "${4}" $5
 }
 
 function fontimagepreview {
@@ -95,7 +97,7 @@ function fontimagepreview {
     printf "Cann't convert the file, check if the file have a password, error: %s" "$error_message"
     exit
   fi
-  render_at_size "${converted_font_img_path}" "${2}" "${3}" "${img_path}" "${4}"
+  render_at_size "${converted_font_img_path}" "${2}" "${3}" "${img_path}" "${4}" $5
 }
 
 function webp_image_preview {
@@ -113,7 +115,7 @@ function webp_image_preview {
     printf "Cann't convert the file, check if the file have a password, error: %s" "$error_message"
     exit
   fi
-  render_at_size "${converted_webp_img_path}" "${2}" "${3}" "${img_path}" "${4}"
+  render_at_size "${converted_webp_img_path}" "${2}" "${3}" "${img_path}" "${4}" $5
 }
 
 function parse_options {
@@ -122,35 +124,35 @@ function parse_options {
     printf "Loading default preview...\nFile: ${1} \n"
     case $extension in
     jpg | png | jpeg)
-        render_at_size "$1" $2 $3 "$1" "$4"
+        render_at_size "$1" $2 $3 "$1" "$4" $5
     ;;
 
     svg)
-        svg "$1" $2 $3 "$4"
+        svg "$1" $2 $3 "$4" $5
     ;;
 
     gif)
-        render_at_size "$1" $2 $3 "$1" "$4"
+        render_at_size "$1" $2 $3 "$1" "$4" $5
     ;;
 
     avi | mp4 | wmv | dat | 3gp | ogv | mkv | mpg | mpeg | vob |  m2v | mov | webm | mts | m4v | rm  | qt | divx)
-        videopreview "$1" $2 $3 "$4"
+        videopreview "$1" $2 $3 "$4" $5
     ;;
 
     pdf)
-        pdfpreview "$1" $2 $3 "$4"
+        pdfpreview "$1" $2 $3 "$4" $5
     ;;
 
     epub)
-        epubpreview "$1" $2 $3 "$4"
+        epubpreview "$1" $2 $3 "$4" $5
     ;;
 
     ttf | otf | woff)
-        fontimagepreview "$1" $2 $3 "$4"
+        fontimagepreview "$1" $2 $3 "$4" $5
     ;;
 
     webp)
-        webp_image_preview "$1" $2 $3 "$4"
+        webp_image_preview "$1" $2 $3 "$4" $5
     ;;
 
 
