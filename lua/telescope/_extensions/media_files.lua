@@ -134,16 +134,15 @@ return require('telescope').register_extension {
     M.config_media.show_file_details = ext_config.show_file_details or 1
 
     M.config_media.external_environment = ext_config.external_environment or "tmux"
-    M.config_media.kitty_always_open_window = ext_config.kitty_always_open_window or 0
-    M.config_media.kitty_time_wait = ext_config.kitty_time_wait or 0
-    M.config_media.kitty_index_window_thumbnail = ext_config.kitty_index_window_thumbnail or -1
-    M.config_media.kitty_resize_open_window = ext_config.kitty_resize_open_window or 0
-
-
     M.config_media.tmux_always_open_pane = ext_config.tmux_always_open_pane or 0
     M.config_media.tmux_time_wait = ext_config.tmux_time_wait or 0
     M.config_media.tmux_index_pane_thumbnail = ext_config.tmux_index_pane_thumbnail or -1
     M.config_media.tmux_resize_open_pane = ext_config.tmux_resize_open_pane or 0
+
+    M.config_media.kitty_always_open_window = ext_config.kitty_always_open_window or 0
+    M.config_media.kitty_time_wait = ext_config.kitty_time_wait or 0
+    M.config_media.kitty_index_window_thumbnail = ext_config.kitty_index_window_thumbnail or -1
+    M.config_media.kitty_resize_open_window = ext_config.kitty_resize_open_window or 0
   end,
   exports = {
     media_files = M.media_files,
