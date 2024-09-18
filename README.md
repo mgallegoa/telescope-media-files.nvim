@@ -93,11 +93,10 @@ When you press `<Enter>` on a selected file, normal mode, it will copy its relat
 ## Prerequisites
 ### Requiered
 * [Chafa](https://hpjansson.org/chafa/) : ASCII Art Image support ( Tmux + kitten required kitten icat )
-* [fd](https://manpages.ubuntu.com/manpages/focal/man1/fdfind.1.html) : To find the files in Telescope pop up. Also support find, fdfind, rg.
+* [fd](https://manpages.ubuntu.com/manpages/focal/man1/fdfind.1.html) : To find the files in Telescope pop up. Also support [rg](https://github.com/BurntSushi/ripgrep) / [find](https://man7.org/linux/man-pages/man1/find.1.html), find or fdfind in Ubuntu/Debian.
 
 ### Optionals
 * [file](https://github.com/file/file) : To view detailed information for the file at the buttom of the Thumbnail
-* [rg](https://github.com/BurntSushi/ripgrep) / [find](https://man7.org/linux/man-pages/man1/find.1.html) or fdfind in Ubuntu/Debian.
 * [rsvg-convert](https://manpages.ubuntu.com/manpages/trusty/man1/rsvg-convert.1.html) : For svg previews
 * [ffmpegthumbnailer](https://github.com/dirkvdb/ffmpegthumbnailer) : for video preview support
 * [pdftoppm](https://linux.die.net/man/1/pdftoppm) : for pdf preview support. Available in the AUR as **poppler** package.
