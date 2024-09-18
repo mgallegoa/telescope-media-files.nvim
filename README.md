@@ -1,5 +1,6 @@
 # Telescope-media-files.nvim
-Preview images Thumbnails for different kind of files, from Neovim using Telescope + ASCII Art (whit Chafa). Support Tmux + console kitty
+Preview images Thumbnails for different kind of files, from Neovim using Telescope + ASCII Art (whit Chafa). Support Tmux + console kitty.
+
 jpg | png | jpeg | svg | gif | avi | mp4 | wmv | dat | 3gp | ogv | mkv | mpg | mpeg | vob |  m2v | mov | webm | mts | m4v | rm  | qt | divx | pdf | epub | ttf | otf | woff | webp
 
 ### Nvim
@@ -91,8 +92,9 @@ When you press `<Enter>` on a selected file, normal mode, it will copy its relat
 
 ## Prerequisites
 ### Requiered
-* [Chafa](https://hpjansson.org/chafa/) (required for image support)
-* [fd](https://manpages.ubuntu.com/manpages/focal/man1/fdfind.1.html)
+* [Chafa](https://hpjansson.org/chafa/) : ASCII Art Image support ( Tmux + kitten required kitten icat )
+* [fd](https://manpages.ubuntu.com/manpages/focal/man1/fdfind.1.html) : To find the files in Telescope pop up. Also support find, fdfind, rg.
+
 ### Optionals
 * [file](https://github.com/file/file) : To view detailed information for the file at the buttom of the Thumbnail
 * [rg](https://github.com/BurntSushi/ripgrep) / [find](https://man7.org/linux/man-pages/man1/find.1.html) or fdfind in Ubuntu/Debian.
