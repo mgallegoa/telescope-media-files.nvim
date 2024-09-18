@@ -1,5 +1,6 @@
 # Telescope-media-files.nvim
-Preview images, gif, pdf, epub, video, and fonts from Neovim using Telescope + ASCII Art (whit Chafa). Support Tmux + console kitty
+Preview images Thumbnails for different kind of files, from Neovim using Telescope + ASCII Art (whit Chafa). Support Tmux + console kitty
+jpg | png | jpeg | svg | gif | avi | mp4 | wmv | dat | 3gp | ogv | mkv | mpg | mpeg | vob |  m2v | mov | webm | mts | m4v | rm  | qt | divx | pdf | epub | ttf | otf | woff | webp
 
 ### Nvim
 ![Nvim](documentation/Telescope-media-file-nvim.gif)
