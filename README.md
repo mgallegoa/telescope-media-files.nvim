@@ -11,8 +11,8 @@ jpg | png | jpeg | svg | gif | avi | mp4 | wmv | dat | 3gp | ogv | mkv | mpg | m
 > ⭐ **Important:** If you like, let your star
 
 ## Videos
-[Configuration](https://www.youtube.com/watch?v=r7539o5ulu4)
-[Tmux + Kitty](https://www.youtube.com/watch?v=e39cPaOP4fE)
+1. [Configuration](https://www.youtube.com/watch?v=r7539o5ulu4) 
+2. [Tmux + Kitty](https://www.youtube.com/watch?v=e39cPaOP4fE)
 
 
 ## Install
