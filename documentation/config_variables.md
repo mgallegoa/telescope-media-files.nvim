@@ -22,6 +22,11 @@ Important: the command should be in your path and should be supported by your co
 
 Default: chafa custom command
 
+### show_file_details 
+If you don't want show the file information at the buttom of the image, disable it with this configuration variable set to 0 or a value different to 1.
+
+Default: 1
+
 ### external_environment
 Apply only for media_files_console.
 
