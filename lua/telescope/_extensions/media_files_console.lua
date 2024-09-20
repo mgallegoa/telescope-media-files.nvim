@@ -27,7 +27,9 @@ function M.execute_command(command)
       vim.notify("Error: " .. table.concat(data, "\n"))
     end,
     on_exit = function(_, exit_code, _)
-      vim.notify("Exit code: " .. exit_code)
+      if exit_code ~= 0 then
+        vim.notify("Exit code: " .. exit_code)
+      end
     end
   })
 end

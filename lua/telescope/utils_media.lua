@@ -104,6 +104,7 @@ function M.get_command_open_image(config_media)
     0,                               -- max_width to open the image, no apply because the image will be open with external program in this case.
     0,                               -- max_hight to open the image, no apply because the image will be open with external program in this case.
     config_media.command_open_image, -- Command to execute to open the image.
+    config_media.show_file_details,  -- Indicate if show the file information at the button of the Thumbnail.
   }
   local command = { config_media.path_default_preview, table.unpack(config) }
   return command
