@@ -48,6 +48,7 @@ function tmux_preview {
   width=$(echo $pane_size | cut -d'x' -f2)
   height=$(echo $pane_size | cut -d'x' -f1)
   command_script_params="$path_default_preview '${file_name}' ${width} ${height} '${command_thumbnail}' ${show_file_details}"
+  tmux send-keys -t "${pane_index_configured}" "clear" C-m
   tmux send-keys -t "${pane_index_configured}" "${command_script_params}" C-m
 
 
