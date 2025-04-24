@@ -32,17 +32,6 @@ function render_at_size {
   exit 0
 }
 
-function svg {
-  if ! command -v rsvg-convert &> /dev/null; then
-    printf "rsvg-convert could not be found in your PATH.\n\nPlease install it to display media content."
-    exit 127
-  fi
-  readonly converted_img_path="${TMP_FOLDER}/rsvg-convert.png"
-  img_path="${1}"
-  rsvg-convert "${img_path}" -o "${converted_img_path}"
-  
-  render_at_size "${converted_img_path}" "${2}" "${3}" "${img_path}" "${4}" $5
-}
 function videopreview {
   if ! command -v ffmpegthumbnailer &> /dev/null; then
     printf "ffmpegthumbnailer could not be found in your PATH.\n\nPlease install it to display video previews."
@@ -127,11 +116,7 @@ function parse_options {
         render_at_size "$1" $2 $3 "$1" "$4" $5
     ;;
 
-    svg)
-        svg "$1" $2 $3 "$4" $5
-    ;;
-
-    gif)
+    gif | svg)
         render_at_size "$1" $2 $3 "$1" "$4" $5
     ;;
 
