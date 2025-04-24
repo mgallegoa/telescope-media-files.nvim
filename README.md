@@ -102,12 +102,15 @@ When you press `<Enter>` on a selected file, normal mode, it will copy its relat
 
 ### Optionals
 * [file](https://github.com/file/file) : To view detailed information for the file at the buttom of the Thumbnail
-* [rsvg-convert](https://manpages.ubuntu.com/manpages/trusty/man1/rsvg-convert.1.html) : For svg previews
 * [ffmpegthumbnailer](https://github.com/dirkvdb/ffmpegthumbnailer) : for video preview support
 * [pdftoppm](https://linux.die.net/man/1/pdftoppm) : for pdf preview support. Available in the AUR as **poppler** package.
 * [epub-thumbnailer](https://github.com/marianosimone/epub-thumbnailer) : for epub preview support.
 * [fontpreview](https://github.com/sdushantha/fontpreview) : for font preview support. But it is necessary to install imageMagic version > 7 to work correctly (https://github.com/ImageMagick/ImageMagick) and follow the insatallation accourding to your system, for example in Unix (https://github.com/ImageMagick/ImageMagick/blob/main/Install-unix.txt)
 * [ffmpeg](https://www.ffmpeg.org/) : Use for webp previews.
+
+> [!NOTE]
+> The next svg converter was replaced by chafa, be sure to compile chafa with librsvg (librsvg2-dev):
+> [rsvg-convert](https://manpages.ubuntu.com/manpages/trusty/man1/rsvg-convert.1.html) : For svg previews
 
 ## Other usefull documents pages
 * [Know errors/issues and how to fix](documentation/errors_issues_knows.md) contain a list of know and document errors/issues and how to fix it.
