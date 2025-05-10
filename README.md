@@ -116,6 +116,9 @@ When you press `<Enter>` on a selected file, normal mode, it will copy its relat
 * [Know errors/issues and how to fix](documentation/errors_issues_knows.md) contain a list of know and document errors/issues and how to fix it.
 * [Tested environments](documentation/tested_environments.md) contain information of different environments test and work well.
 
+## Breaking Change strategy
+
+When a breaking change is required, adopt strategy used the [neo-tree project](https://github.com/nvim-neo-tree/neo-tree.nvim?tab=readme-ov-file#stable)
 
 
 credit to https://github.com/cirala/vifmimg
